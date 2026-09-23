@@ -1,4 +1,6 @@
-const errorHandler = (err, _req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction) : void => {
     console.log(err.stack);
 
     const status = res.statusCode ? res.statusCode : 500; // server error
