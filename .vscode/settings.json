@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "interactive map",
+            "database": "db.sqlite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
