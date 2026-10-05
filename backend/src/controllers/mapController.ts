@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { getParentCompaniesWithLocations } from "../repositories/mapRepository";
+import { findParentCompaniesLocations } from "../repositories/mapRepository";
 import type Location from "../models/Location";
 
-const foo = (req_: Request, res: Response, next: NextFunction) => {
+const getParentCompaniesWithLocations = (req_: Request, res: Response, next: NextFunction) => {
     try {
-        const rows = getParentCompaniesWithLocations();
+        const rows = findParentCompaniesLocations();
 
         // ideally I would just return the rows and let the frontend
         // sort out the data to their liking, however, for brevity
@@ -48,4 +48,4 @@ const foo = (req_: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export { foo };
+export { getParentCompaniesWithLocations };

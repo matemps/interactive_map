@@ -1,6 +1,6 @@
 import db from "../config/dbConn.ts";
 
-const getParentCompaniesWithLocations = () => {
+const findParentCompaniesLocations = () => {
     try {
         const rows = db.prepare<{}, {
             parentCompanyId: number,
@@ -17,4 +17,4 @@ const getParentCompaniesWithLocations = () => {
     }
 };
 
-export { getParentCompaniesWithLocations };
+export { findParentCompaniesLocations };
