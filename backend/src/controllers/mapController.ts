@@ -5,11 +5,7 @@ import type Location from "../models/Location";
 const getParentCompaniesWithLocations = (req_: Request, res: Response, next: NextFunction) => {
     try {
         const rows = findParentCompaniesLocations();
-
-        // ideally I would just return the rows and let the frontend
-        // sort out the data to their liking, however, for brevity
-        // i'll just do it here.
-
+        
         const parentCompanyIds = new Set<number>();
         const data : { 
             parentCompanyId : number,
