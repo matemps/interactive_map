@@ -1,4 +1,4 @@
-type ParentCompany = {
+interface ParentCompany {
     id: number,
     name: string,
 };

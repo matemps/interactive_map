@@ -1,4 +1,4 @@
-type Location = {
+interface Location {
     id: number,
     name: string,
     latitude: number,

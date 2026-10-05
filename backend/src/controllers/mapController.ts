@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { findParentCompaniesLocations } from "../repositories/mapRepository";
-import type Location from "../models/Location";
+import Location from "../models/Location";
 
 const getParentCompaniesWithLocations = (req_: Request, res: Response, next: NextFunction) => {
     try {
