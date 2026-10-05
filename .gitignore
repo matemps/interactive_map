@@ -1,2 +1,5 @@
 backend/node_modules
 backend/.env
+
+db.sqlite-shm
+db.sqlite-wal
