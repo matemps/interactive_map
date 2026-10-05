@@ -6,6 +6,10 @@ const foo = (req_: Request, res: Response, next: NextFunction) => {
     try {
         const rows = getParentCompaniesWithLocations();
 
+        // ideally I would just return the rows and let the frontend
+        // sort out the data to their liking, however, for brevity
+        // i'll just do it here.
+
         const parentCompanyIds = new Set<number>();
         const data : { 
             parentCompanyId : number,
@@ -38,7 +42,7 @@ const foo = (req_: Request, res: Response, next: NextFunction) => {
                 ?.parentCompanyLocations.push(location);
         });
 
-        res.status(200).json(rows);
+        res.status(200).json(data);
     } catch (err) {
         next(err);
     }
