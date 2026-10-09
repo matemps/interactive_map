@@ -5,7 +5,7 @@ import "./App.css";
 
 
 const App = () => {
-  const [dataFetched, setDataFetched] = useState(false);
+  const [attemptedFetch, setAttemptedFetch] = useState(false);
   const [currentData, setData] = useState(null);
 
   const fetchData = async () => {
@@ -13,14 +13,20 @@ const App = () => {
       const response = await fetch("http://127.0.0.1:3000/map");
       const data = await response.json();
 
+      // handle http 400 & 500 errors
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
       setData(data);
-      setDataFetched(true);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setAttemptedFetch(true);
     }
   }
 
-  if (!dataFetched) {
+  if (!attemptedFetch) {
     fetchData();
   }
 
