@@ -1,15 +1,50 @@
 #app {
-  display: flex;
   height: 100%;
+  width: 97%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5em;
+  padding: 1em 0;
+  box-sizing: border-box;
+}
+
+#error-container {
+  border-radius: 2px;
+  border-style: solid;
+  border-color: grey;
+  border-width: 1px;
+  padding: 0.5em;
+  background-color:antiquewhite;
+}
+
+#error-text {
+  margin: 0;
+  text-align: center;
+  color: red;
+}
+
+#flex-container {
+  display: flex;
+  flex: 1;
+  gap: 1.5em;
+  min-height: 0;
 }
 
 #treeview {
   flex: 3;
-  height: 100%;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: grey;
+  border-width: 1px;
   overflow: auto;
+  background-color:antiquewhite;
 }
 
 #map {
   flex: 7;
-  height: 100%;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: grey;
+  border-width: 1px;
 }

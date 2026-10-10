@@ -5,6 +5,7 @@ import "./App.css";
 
 
 const App = () => {
+  const [error, setError] = useState("");
   const [attemptedFetch, setAttemptedFetch] = useState(false);
   const [currentData, setData] = useState(null);
 
@@ -20,7 +21,7 @@ const App = () => {
 
       setData(data);
     } catch (err) {
-      console.log(err.message);
+      setError(`Error: ${err.message}`);
     } finally {
       setAttemptedFetch(true);
     }
@@ -31,11 +32,20 @@ const App = () => {
   }
 
   console.log(currentData);
+
+  const errorContainer = error ?
+    <div id="error-container">
+      <p id="error-text">{error}</p>
+    </div>
+    : null;
   
   return (
     <div id="app">
-      <TreeView />
-      <Map />
+      {errorContainer}
+      <div id="flex-container">
+        <TreeView />
+        <Map />
+      </div>
     </div>
   );
 };
