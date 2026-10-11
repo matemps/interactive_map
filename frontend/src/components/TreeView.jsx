@@ -57,13 +57,13 @@ const TreeView = ({ts, callback}) => {
             {ts.map((node) => (
                 <TreeNode
                     key={node.id}
-                    ts={ts.ts}
+                    ts={ts}
                     id={node.id}
                     label={node.label}
                     children={node.children}
                     expanded={node.expanded}
                     checked={node.checked}
-                    callback={ts.callback}
+                    callback={callback}
                 />
             ))}
         </ul>
