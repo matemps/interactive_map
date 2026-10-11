@@ -42,6 +42,7 @@ const App = () => {
               longitude: l.longitude
             },
             children: [],
+            expanded: false,
             checked: false
           };
 
@@ -61,6 +62,7 @@ const App = () => {
           label: parentCompanyName,
           data: null,
           children: parentCompanyLocations,
+          expanded: false,
           checked: false
         };
 
@@ -91,10 +93,10 @@ const App = () => {
     <div id="app">
       {errorContainer}
       <div id="flex-container">
-        <TreeView ts={treeState} ms={mapState} ll={locationsLookup} callback={
-          (newTreeState, newMapState) => {
+        <TreeView ts={treeState} callback={
+          (newTreeState) => {
             setTreeState(newTreeState);
-            setMapState(newMapState);
+            // set map state
           }
         } />
         <Map ms={mapState}/>

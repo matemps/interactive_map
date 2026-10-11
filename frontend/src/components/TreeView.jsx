@@ -1,6 +1,72 @@
-const TreeView = (ts, ms, ll, callback) => {
+const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
+    const handleChevronClick = () => {
+
+    }
+
+    const handleCheckboxToggle = () => {
+
+    }
+    
+    const chevron = children.length
+        ? (
+            <div>
+                <button onClick={handleChevronClick}></button>
+            </div>
+        )
+        : null;
+    
+    const childList = children.length && expanded
+        ? (
+            <div>
+                <ul>
+                    {children.map((child) => (
+                        <TreeNode
+                            key={child.id}
+                            id={child.id}
+                            label={child.label}
+                            children={child.children}
+                            expanded={child.expanded}
+                            checked={child.checked}
+                            callback={callback}
+                        />
+                    ))}
+                </ul>
+            </div>
+        )
+        : null;
+    
     return (
-        <div id="treeview"></div>
+        <div className="node-container">
+            <div className="node">
+                <div>
+                    {chevron}
+                    <div>
+                        <input type="checkbox" value={checked} onClick={handleCheckboxToggle} />
+                    </div>
+                    <p>{label}</p>
+                </div>
+            </div>
+            {childList}
+        </div>
+    );
+};
+
+const TreeView = ({ts, callback}) => {
+    return (
+        <ul id="treeview">
+            {ts.map((node) => (
+                <TreeNode
+                    key={node.id}
+                    ts={ts.ts}
+                    id={node.id}
+                    label={node.label}
+                    children={node.children}
+                    expanded={node.expanded}
+                    checked={node.checked}
+                    callback={ts.callback}
+                />
+            ))}
+        </ul>
     );
 };
 
