@@ -7,7 +7,9 @@ import "./App.css";
 const App = () => {
   const [error, setError] = useState("");
   const [attemptedFetch, setAttemptedFetch] = useState(false);
-  const [currentData, setData] = useState(null);
+  const [treeState, setTreeState] = useState([]);
+  const [mapState, setMapState] = useState([]);
+  const [locationsLookup, setLocationsLookup] = useState([]);
 
   const fetchData = async () => {
     try {      
@@ -19,7 +21,55 @@ const App = () => {
         throw new Error(data.message);
       }
 
-      setData(data);
+      // convert data and set location lookup, tree state, and map state
+      let id = 0;
+      let initialTreeState = [];
+      let locations = new Set();
+
+      data.forEach((p) => {
+        const parentId = id;
+        const parentCompanyName = p.parentCompanyName;
+        let parentCompanyLocations = [];
+
+        p.parentCompanyLocations.forEach((l) => {
+          id++;
+
+          const childNode = {
+            id: id,
+            label: l.name,
+            data: {
+              latitude: l.latitude,
+              longitude: l.longitude
+            },
+            children: [],
+            checked: false
+          };
+
+          const location = {
+            id: id,
+            label: l.name,
+            latitude: l.latitude,
+            longitude: l.longitude
+          }
+
+          parentCompanyLocations.push(childNode);
+          locations.add(location);
+        });
+
+        const parentNode = {
+          id: parentId,
+          label: parentCompanyName,
+          data: null,
+          children: parentCompanyLocations,
+          checked: false
+        };
+
+        initialTreeState.push(parentNode);
+        id++;
+      });
+
+      setTreeState(initialTreeState);
+      setLocationsLookup([...locations]);
     } catch (err) {
       setError(`Error: ${err.message}`);
     } finally {
@@ -31,8 +81,6 @@ const App = () => {
     fetchData();
   }
 
-  console.log(currentData);
-
   const errorContainer = error ?
     <div id="error-container">
       <p id="error-text">{error}</p>
@@ -43,8 +91,13 @@ const App = () => {
     <div id="app">
       {errorContainer}
       <div id="flex-container">
-        <TreeView />
-        <Map />
+        <TreeView ts={treeState} ms={mapState} ll={locationsLookup} callback={
+          (newTreeState, newMapState) => {
+            setTreeState(newTreeState);
+            setMapState(newMapState);
+          }
+        } />
+        <Map ms={mapState}/>
       </div>
     </div>
   );
