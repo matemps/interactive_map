@@ -1,4 +1,9 @@
+import { useRef, useEffect } from "react";
+
+
 const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
+    const checkBoxRef = useRef(null);
+
     const handleExpandCollapseBtnClick = () => {
         const newTreeState = ts.map((node) => 
             node.id === id
@@ -11,8 +16,47 @@ const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
     }
 
     const handleCheckboxToggle = () => {
+        const setChecked = (node, value) => ({
+            ...node,
+            checked: value,
+            children: node.children.map((child) => setChecked(child, value))
+        });
 
-    }
+        const updateNodes = (nodes) => nodes.map((node) => {
+            if (node.id === id) {
+                return setChecked(node, !node.checked);
+            }
+
+            if (node.children.length == 0) {
+                return node;
+            }
+
+            const newChildren = updateNodes(node.children);
+
+            return {
+                ...node,
+                checked: newChildren.every((child) => child.checked),
+                children: newChildren
+            };
+        });
+
+        // set new tree state
+        callback(updateNodes(ts));
+    };
+
+    // checkbox has indeterminate state when some but not all children 
+    // are checked 
+    
+    const hasCheckedChild = (node) =>
+        node.checked || node.children.some(hasCheckedChild);
+    const indeterminate = !checked && children.some(hasCheckedChild);
+    
+
+    // manipulate checkbox inside dom
+    useEffect(() => {
+        checkBoxRef.current.indeterminate = indeterminate
+    }, [indeterminate]);
+
     
     const expandCollapseBtn = children.length
         ? (
@@ -49,7 +93,7 @@ const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
                 <div>
                     {expandCollapseBtn}
                     <div>
-                        <input type="checkbox" value={checked} onClick={handleCheckboxToggle} />
+                        <input ref={checkBoxRef} type="checkbox" checked={checked} onChange={handleCheckboxToggle} />
                     </div>
                     <p>{label}</p>
                 </div>
