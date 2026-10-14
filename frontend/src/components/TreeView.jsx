@@ -1,27 +1,35 @@
 const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
-    const handleChevronClick = () => {
+    const handleExpandCollapseBtnClick = () => {
+        const newTreeState = ts.map((node) => 
+            node.id === id
+                ? { ...node, expanded: !node.expanded }
+                : node
+        );
 
+        // set new tree state
+        callback(newTreeState);
     }
 
     const handleCheckboxToggle = () => {
 
     }
     
-    const chevron = children.length
+    const expandCollapseBtn = children.length
         ? (
             <div>
-                <button onClick={handleChevronClick}></button>
+                <button onClick={handleExpandCollapseBtnClick}></button>
             </div>
         )
         : null;
     
-    const childList = children.length && expanded
+    const childList = children.length > 0 && expanded
         ? (
             <div>
                 <ul>
                     {children.map((child) => (
                         <TreeNode
                             key={child.id}
+                            ts={ts}
                             id={child.id}
                             label={child.label}
                             children={child.children}
@@ -39,7 +47,7 @@ const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
         <div className="node-container">
             <div className="node">
                 <div>
-                    {chevron}
+                    {expandCollapseBtn}
                     <div>
                         <input type="checkbox" value={checked} onClick={handleCheckboxToggle} />
                     </div>
