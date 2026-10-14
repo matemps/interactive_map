@@ -44,12 +44,12 @@ const TreeNode = ({ts, id, label, children, expanded, checked, callback}) => {
         callback(updateNodes(ts));
     };
 
-    // checkbox has indeterminate state when some but not all children 
+    // checkbox has indeterminate state when some but not all descendants 
     // are checked 
     
-    const hasCheckedChild = (node) =>
-        node.checked || node.children.some(hasCheckedChild);
-    const indeterminate = !checked && children.some(hasCheckedChild);
+    const hasCheckedDescendants = (node) =>
+        node.checked || node.children.some(hasCheckedDescendants);
+    const indeterminate = !checked && children.some(hasCheckedDescendants);
     
 
     // manipulate checkbox inside dom
